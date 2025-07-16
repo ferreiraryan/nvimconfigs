@@ -1,4 +1,4 @@
--- lua/plugins/lsp.lua
+
 return {
   'neovim/nvim-lspconfig',
   dependencies = {
@@ -10,13 +10,11 @@ return {
     'folke/lazydev.nvim',
   },
   config = function()
-    -- Função de atalho para mapeamentos do LSP
     local on_attach = function(client, bufnr)
       local map = function(keys, func, desc, mode)
         vim.keymap.set(mode or 'n', keys, func, { buffer = bufnr, desc = 'LSP: ' .. desc })
       end
 
-      -- Mapeamentos comuns do LSP
       map('grn', vim.lsp.buf.rename, '[R]e[n]ame')
       map('gra', vim.lsp.buf.code_action, '[G]oto Code [A]ction', { 'n', 'v' })
       map('grd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
@@ -25,43 +23,39 @@ return {
       map('grt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype Definition')
       map('gO', require('telescope.builtin').lsp_document_symbols, 'Open Document Symbols')
       map('gW', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Open Workspace Symbols')
-
-      -- ... (o resto da sua configuração on_attach)
     end
 
-    -- Capacidades do cliente LSP, aprimoradas pelo blink.cmp
     local capabilities = require('blink.cmp').get_lsp_capabilities()
 
-    -- Servidores LSP a serem instalados
-    local servers = {
+    local mason_servers_to_manage = {
       'ts_ls',
-      'ast_grep',
       'dartls',
       'lua_ls',
-
-      -- adicione outros aqui, ex: 'pyright', 'gopls'
+      'pyright',
+      'ruff',
+      'jsonls',
+      'html',
+      'cssls',
     }
 
-    -- Ferramentas adicionais a serem instaladas pelo Mason
-    local tools = {
+    local mason_tools_to_install = {
       'stylua',
     }
 
-    -- Configuração do Mason
     require('mason').setup()
     require('mason-lspconfig').setup {
-      ensure_installed = servers,
+      ensure_installed = {},
       automatic_installation = true,
     }
-    require('mason-tool-installer').setup { ensure_installed = tools }
+    require('mason-tool-installer').setup { ensure_installed = mason_tools_to_install }
 
-    -- Configuração dos servidores LSP
-    for _, server_name in ipairs(servers) do
+    local lspconfig_servers_to_configure = mason_servers_to_manage
+
+    for _, server_name in ipairs(lspconfig_servers_to_configure) do
       local server_opts = {
         on_attach = on_attach,
         capabilities = capabilities,
       }
-      -- Configurações específicas por servidor
       if server_name == 'lua_ls' then
         server_opts.settings = {
           Lua = {
@@ -69,8 +63,25 @@ return {
             diagnostics = { globals = { 'vim' } },
           },
         }
+      elseif server_name == 'pyright' then
+        server_opts.settings = {
+          python = {
+            analysis = {
+              typeCheckingMode = "basic",
+              autoSearchPaths = true,
+              useLibraryCodeForTypes = true,
+              diagnosticMode = "workspace"
+            }
+          }
+        }
       end
-      require('lspconfig')[server_name].setup(server_opts)
+
+      local lspconfig_setup_fn = require('lspconfig')[server_name]
+      if lspconfig_setup_fn then
+        lspconfig_setup_fn.setup(server_opts)
+      else
+        print("WARN: lspconfig does not have a setup function for " .. server_name)
+      end
     end
   end,
 }

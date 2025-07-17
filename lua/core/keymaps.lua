@@ -63,7 +63,13 @@ map('n', '<leader>rr', '<cmd>Rest run<CR>', { desc = 'Executar requisição REST
 map('n', '<leader>rp', '<cmd>Rest run last<CR>', { desc = 'Repetir última requisição REST' })
 
 -- Em lua/core/keymaps.lua
+-- Exemplo de como configurar após a instalação com lazy.nvim
+-- Geralmente dentro de um bloco on_attach ou no arquivo de configuração de atalhos
 
--- Adicione no final do arquivo
-map('n', 'gcc', '<cmd>lua MiniComment.toggle_current_line()<CR>', { desc = 'Comentar/Descomentar linha atual' })
-map('v', 'gc', '<cmd>lua MiniComment.toggle_visual_selection()<CR>', { desc = 'Comentar/Descomentar seleção' })
+-- Mapeia 'gcc' para comentar a linha atual no modo Normal
+vim.keymap.set('n', 'gcc', function()
+    require('Comment.api').toggle.linewise.current()
+end, { desc = 'Comentar/descomentar linha atual' })
+
+-- Mapeia 'gc' para comentar a seleção no modo Visual
+vim.keymap.set('v', 'gc', '<ESC><CMD>lua require("Comment.api").toggle.linewise(vim.fn.visualmode())<CR>', { desc = 'Comentar/descomentar seleção' })

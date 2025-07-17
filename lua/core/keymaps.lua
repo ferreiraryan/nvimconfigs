@@ -34,7 +34,7 @@ map('n', '<Esc>', '<cmd>nohlsearch<CR>', { desc = 'Limpar highlight da busca' })
 map('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Sair do modo terminal' })
 
 -- Atalho para formatar com LSP (precisa do plugin conform.nvim ou similar)
-map('n', '<leader>fmd', vim.lsp.buf.format, { desc = 'Formatar arquivo' })
+map('n', '<leader>fd', vim.lsp.buf.format, { desc = 'Formatar arquivo' })
 
 -- Atalho de verificação ortográfica
 map('n', '<f8>', function()
@@ -68,7 +68,7 @@ map('n', '<leader>rp', '<cmd>Rest run last<CR>', { desc = 'Repetir última requi
 
 -- Mapeia 'gcc' para comentar a linha atual no modo Normal
 vim.keymap.set('n', 'gcc', function()
-    require('Comment.api').toggle.linewise.current()
+  require('Comment.api').toggle.linewise.current()
 end, { desc = 'Comentar/descomentar linha atual' })
 
 -- Mapeia 'gc' para comentar a seleção no modo Visual

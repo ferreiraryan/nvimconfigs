@@ -34,7 +34,11 @@ map('n', '<Esc>', '<cmd>nohlsearch<CR>', { desc = 'Limpar highlight da busca' })
 map('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Sair do modo terminal' })
 
 -- Atalho para formatar com LSP (precisa do plugin conform.nvim ou similar)
-map('n', '<leader>fd', vim.lsp.buf.format, { desc = 'Formatar arquivo' })
+-- map('n', '<leader>fd', vim.lsp.buf.format, { desc = 'Formatar arquivo' })
+-- ADICIONE ESTA LINHA NOVA:
+vim.keymap.set({ 'n', 'v' }, '<leader>fd', function()
+  require('conform').format({ async = true, lsp_fallback = true })
+end, { desc = 'Formatar arquivo' })
 
 -- Atalho de verificação ortográfica
 map('n', '<f8>', function()

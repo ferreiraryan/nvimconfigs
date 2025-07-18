@@ -6,7 +6,7 @@ return {
     'williamboman/mason-lspconfig.nvim',
     'hrsh7th/nvim-cmp',
     'hrsh7th/cmp-nvim-lsp',
-    { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} },
+    { 'j-hui/fidget.nvim',  tag = 'legacy', opts = {} },
     { 'folke/lazydev.nvim', ft = 'lua' },
   },
   config = function()
@@ -19,6 +19,8 @@ return {
       map('grn', vim.lsp.buf.rename, '[R]e[n]ame')
       map('gra', vim.lsp.buf.code_action, '[G]oto Code [A]ction')
       map('K', vim.lsp.buf.hover, 'Hover Documentation')
+
+
     end
 
     local function has_tool_config(root_dir, tool_name)
@@ -70,7 +72,7 @@ return {
               vim.diagnostic.disable(bufnr, vim.lsp.get_namespace(client.id))
               -- Permite que a formatação continue funcionando
               if client.supports_method 'textDocument/formatting' then
-                vim.keymap.set('n', '<leader>fr', function()
+                vim.keymap.set('n', '<leader>fd', function()
                   vim.lsp.buf.format { async = true, bufnr = bufnr }
                 end, { buffer = bufnr, desc = 'Formatar com Ruff' })
               end

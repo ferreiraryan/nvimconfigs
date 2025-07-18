@@ -180,3 +180,18 @@ vim.api.nvim_create_user_command("FreezeRequirements", function()
   end
 end, {})
 
+-- ==========================================
+-- =========== Baixar pacote pip ============
+-- ==========================================
+
+
+vim.api.nvim_create_user_command("Pip", function(packg)
+  local output = vim.fn.system("pip install " .. packg.args)
+  if vim.v.shell_error == 0 then
+    print("Pacote instalado com sucesso.")
+  else
+    print("Erro ao executar pip : " .. output)
+  end
+end, {
+  nargs = 1,
+})

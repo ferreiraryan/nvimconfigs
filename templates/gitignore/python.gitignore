@@ -1,0 +1,48 @@
+# Arquivos de Ambiente Virtual
+# Nunca comite sua pasta de ambiente virtual!
+.venv/
+venv/
+env/
+.env
+
+# Arquivos de Cache e Bytecode do Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+
+# Arquivos de Distribuição / Instalação
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Arquivos do Django
+# Banco de dados de desenvolvimento
+*.sqlite3
+db.sqlite3
+# Arquivos de mídia enviados por usuários
+/media/
+# Arquivos estáticos coletados pelo collectstatic
+/static_root/
+/staticfiles/
+# Arquivos de log
+*.log
+
+# Notebooks Jupyter
+.ipynb_checkpoints
+
+# Testes
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Configurações de IDEs e Editores
+.idea/
+.vscode/
+*.swp
+
+# Arquivos de Sistema Operacional
+.DS_Store
+Thumbs.db

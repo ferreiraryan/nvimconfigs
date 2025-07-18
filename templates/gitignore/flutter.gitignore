@@ -1,0 +1,35 @@
+# Arquivos gerados pelo Flutter e Dart
+.dart_tool/
+.packages
+.pub-cache/
+build/
+# Arquivos de log do Flutter
+app_*.log
+*.log
+
+# Arquivos de Configuração de IDE
+# Android Studio / IntelliJ
+*.iml
+*.ipr
+*.iws
+.idea/
+# VS Code
+.vscode/
+
+# Arquivos de Dependências e Metadados
+pubspec.lock # Geralmente é comitado, mas alguns times preferem ignorar. Padrão é comitar.
+# Deixe comentado se você comita o pubspec.lock
+
+# Arquivos gerados por build_runner (se usar)
+*.g.dart
+*.freezed.dart
+
+# Chaves de Assinatura e Credenciais (MUITO IMPORTANTE)
+*.jks
+*.keystore
+# Adicione aqui o caminho para seus arquivos de credenciais do Google, Firebase, etc.
+# Ex: /android/app/google-services.json
+
+# Arquivos de Sistema Operacional
+.DS_Store
+Thumbs.db

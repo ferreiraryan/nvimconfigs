@@ -1,0 +1,18 @@
+# pyproject.toml
+
+[tool.ruff]
+# Formatação e linting
+line-length = 99
+select = ["E", "F", "W", "I", "UP", "C4"] # Seleciona um bom conjunto de regras
+ignore = ["E501"] # Ignora "linha muito longa", já que o formatador cuida disso
+
+[tool.ruff.format]
+quote-style = "double"
+
+
+[tool.pyright]
+# Análise de tipos
+include = ["src"] # Especifique a pasta do seu código fonte
+reportMissingImports = true
+reportUnusedVariable = "warning"
+pythonVersion = "3.11"

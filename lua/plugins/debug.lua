@@ -13,7 +13,7 @@ return {
   dependencies = {
     -- Creates a beautiful debugger UI
     'rcarriga/nvim-dap-ui',
-
+    'mfussenegger/nvim-dap-python',
     -- Required dependency for nvim-dap-ui
     'nvim-neotest/nvim-nio',
 
@@ -144,5 +144,6 @@ return {
         detached = vim.fn.has 'win32' == 0,
       },
     }
+    require('dap-python').setup()
   end,
 }

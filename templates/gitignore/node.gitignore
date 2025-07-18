@@ -1,0 +1,51 @@
+# Dependências
+# A regra mais importante de todas!
+node_modules/
+
+# Arquivos de Build e Produção
+dist/
+build/
+.next/
+.nuxt/
+.svelte-kit/
+out/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Arquivos de Ambiente (NUNCA comite suas chaves de API!)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.*.local
+
+# Arquivos de Cache
+.npm/
+.yarn/cache
+.eslintcache
+.cache
+.vite-node/
+
+# Arquivos gerados pelo TypeScript
+# (geralmente já estão dentro de dist/ ou build/, mas é bom garantir)
+*.js
+*.js.map
+*.d.ts
+# Não ignore os arquivos de configuração
+!tsconfig.json
+
+# Configurações de IDEs e Editores
+.idea/
+.vscode/
+*.swp
+
+# Arquivos de Sistema Operacional
+.DS_Store
+Thumbs.db

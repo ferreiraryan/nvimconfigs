@@ -154,7 +154,7 @@ vim.api.nvim_create_user_command('GitignoreMenu', function()
 end, {})
 
 -- ==========================================
--- ======= Salvar Ao sair do insert =========
+-- ======= salvar ao sair do insert =========
 -- ==========================================
 
 vim.api.nvim_create_autocmd("InsertLeave", {
@@ -268,3 +268,18 @@ vim.api.nvim_create_user_command("GitPull", function()
     print("❌ Erro no git pull:\n" .. output)
   end
 end, {})
+
+-- ==========================================
+-- ======= Recarregar Lsp =========
+-- ==========================================
+
+vim.api.nvim_create_user_command("LspReload", function()
+  for _, client in ipairs(vim.lsp.get_active_clients()) do
+    vim.lsp.stop_client(client.id)
+  end
+  vim.cmd("edit")     -- força reload do buffer atual
+  vim.cmd("LspStart") -- reinicia todos os LSPs ativos
+  print("🔁 LSP reiniciado.")
+end, {})
+
+

@@ -250,3 +250,22 @@ end, {
   nargs = "+", 
   complete = nil,
 })
+
+
+vim.api.nvim_create_user_command("GitPush", function()
+  local output = vim.fn.system("git push")
+  if vim.v.shell_error == 0 then
+    print("✅ git push realizado com sucesso!")
+  else
+    print("❌ Erro no git push:\n" .. output)
+  end
+end, {})
+
+vim.api.nvim_create_user_command("GitPull", function()
+  local output = vim.fn.system("git pull")
+  if vim.v.shell_error == 0 then
+    print("✅ git pull realizado com sucesso!")
+  else
+    print("❌ Erro no git pull:\n" .. output)
+  end
+end, {})

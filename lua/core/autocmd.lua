@@ -47,11 +47,9 @@ vim.api.nvim_create_user_command('ProjectInitPython', function()
   end
 end, {})
 
-
 -- =============================================================
 -- COMANDOS PARA GERAR O .gitignore A PARTIR DE TEMPLATES (VERSÃO CORRIGIDA)
 -- =============================================================
-
 
 local function create_gitignore_from_template(template_path, template_name)
   local dest_path = vim.fn.getcwd() .. '/.gitignore'
@@ -87,7 +85,7 @@ end
 
 -- Comando :GitignoreMenu (menu visual)
 vim.api.nvim_create_user_command('GitignoreMenu', function()
-  local template_dir = vim.fn.expand('~/.config/nvim/templates/gitignore/')
+  local template_dir = vim.fn.expand '~/.config/nvim/templates/gitignore/'
   local files = vim.fn.glob(template_dir .. '*.gitignore', true, true)
   if type(files) == 'string' then
     files = vim.split(files, '\n', { trimempty = true })
@@ -106,7 +104,9 @@ vim.api.nvim_create_user_command('GitignoreMenu', function()
     return
   end
 
-  table.sort(templates, function(a, b) return a.name < b.name end)
+  table.sort(templates, function(a, b)
+    return a.name < b.name
+  end)
 
   local menu_lines = { 'Selecione um template .gitignore:', '' }
   local max_width = 3
@@ -149,19 +149,23 @@ vim.api.nvim_create_user_command('GitignoreMenu', function()
   end
 
   vim.keymap.set('n', '<CR>', select_option_and_close, { buffer = buf, silent = true })
-  vim.keymap.set('n', 'q', function() vim.api.nvim_win_close(win, true) end, { buffer = buf, silent = true })
-  vim.keymap.set('n', '<Esc>', function() vim.api.nvim_win_close(win, true) end, { buffer = buf, silent = true })
+  vim.keymap.set('n', 'q', function()
+    vim.api.nvim_win_close(win, true)
+  end, { buffer = buf, silent = true })
+  vim.keymap.set('n', '<Esc>', function()
+    vim.api.nvim_win_close(win, true)
+  end, { buffer = buf, silent = true })
 end, {})
 
 -- ==========================================
 -- ======= salvar ao sair do insert =========
 -- ==========================================
 
-vim.api.nvim_create_autocmd("InsertLeave", {
-  pattern = "*",
+vim.api.nvim_create_autocmd('InsertLeave', {
+  pattern = '*',
   callback = function()
     if vim.bo.modified and vim.bo.filetype ~= '' and vim.bo.buftype == '' then
-      vim.cmd("silent write")
+      vim.cmd 'silent write'
     end
   end,
 })
@@ -170,13 +174,12 @@ vim.api.nvim_create_autocmd("InsertLeave", {
 -- ======= Criar Requiriments python ========
 -- ==========================================
 
-
-vim.api.nvim_create_user_command("FreezeRequirements", function()
-  local output = vim.fn.system("pip freeze > requirements.txt")
+vim.api.nvim_create_user_command('FreezeRequirements', function()
+  local output = vim.fn.system 'pip freeze > requirements.txt'
   if vim.v.shell_error == 0 then
-    print("requirements.txt atualizado com sucesso.")
+    print 'requirements.txt atualizado com sucesso.'
   else
-    print("Erro ao executar pip freeze: " .. output)
+    print('Erro ao executar pip freeze: ' .. output)
   end
 end, {})
 
@@ -184,13 +187,12 @@ end, {})
 -- =========== Baixar pacote pip ============
 -- ==========================================
 
-
-vim.api.nvim_create_user_command("Pip", function(packg)
-  local output = vim.fn.system("pip install " .. packg.args)
+vim.api.nvim_create_user_command('Pip', function(packg)
+  local output = vim.fn.system('pip install ' .. packg.args)
   if vim.v.shell_error == 0 then
-    print("Pacote instalado com sucesso.")
+    print 'Pacote instalado com sucesso.'
   else
-    print("Erro ao executar pip : " .. output)
+    print('Erro ao executar pip : ' .. output)
   end
 end, {
   nargs = 1,
@@ -200,86 +202,174 @@ end, {
 -- ============== Comandos Git ==============
 -- ==========================================
 
-
-vim.api.nvim_create_user_command("GitAddAll", function()
-  local output = vim.fn.system("git add .")
+vim.api.nvim_create_user_command('GitAddAll', function()
+  local output = vim.fn.system 'git add .'
   if vim.v.shell_error == 0 then
-    print("Arquivos Adicionados com sucesso!")
+    print 'Arquivos Adicionados com sucesso!'
   else
-    print("Erro ao Adicionar: " .. output)
+    print('Erro ao Adicionar: ' .. output)
   end
 end, {})
 
-
-vim.api.nvim_create_user_command("GitCommit", function(opts)
+vim.api.nvim_create_user_command('GitCommit', function(opts)
   local args = opts.fargs
   local tipo = args[1]
-  local escopo = ""
-  local mensagem = ""
+  local escopo = ''
+  local mensagem = ''
 
   if #args < 2 then
-    print("Uso: :GitCommit <tipo> [escopo] <mensagem>")
+    print 'Uso: :GitCommit <tipo> [escopo] <mensagem>'
     return
   end
 
   -- Se o segundo argumento estiver entre parênteses, remove e usa como escopo
-  if args[2]:match("^%(.+%)$") then
+  if args[2]:match '^%(.+%)$' then
     escopo = args[2]
-    mensagem = table.concat(args, " ", 3)
+    mensagem = table.concat(args, ' ', 3)
   else
     -- Se o segundo argumento não parecer escopo, considera que mensagem começa aqui
-    mensagem = table.concat(args, " ", 2)
+    mensagem = table.concat(args, ' ', 2)
   end
 
-  local commit_msg = tipo .. escopo .. ": " .. mensagem
+  local commit_msg = tipo .. escopo .. ': ' .. mensagem
 
   -- Executa git add
-  local add_output = vim.fn.system("git add .")
+  local add_output = vim.fn.system 'git add .'
   if vim.v.shell_error ~= 0 then
-    print("Erro ao adicionar arquivos: " .. add_output)
+    print('Erro ao adicionar arquivos: ' .. add_output)
     return
   end
 
   -- Executa git commit
   local commit_output = vim.fn.system("git commit -m '" .. commit_msg .. "'")
   if vim.v.shell_error == 0 then
-    print("Commit realizado: " .. commit_msg)
+    print('Commit realizado: ' .. commit_msg)
   else
-    print("Erro ao commitar: " .. commit_output)
+    print('Erro ao commitar: ' .. commit_output)
   end
 end, {
-  nargs = "+",
+  nargs = '+',
 })
 
-vim.api.nvim_create_user_command("GitPush", function()
-  local output = vim.fn.system("git push")
+vim.api.nvim_create_user_command('GitPush', function()
+  local output = vim.fn.system 'git push'
   if vim.v.shell_error == 0 then
-    print("✅ git push realizado com sucesso!")
+    print '✅ git push realizado com sucesso!'
   else
-    print("❌ Erro no git push:\n" .. output)
+    print('❌ Erro no git push:\n' .. output)
   end
 end, {})
 
-vim.api.nvim_create_user_command("GitPull", function()
-  local output = vim.fn.system("git pull")
+vim.api.nvim_create_user_command('GitPull', function()
+  local output = vim.fn.system 'git pull'
   if vim.v.shell_error == 0 then
-    print("✅ git pull realizado com sucesso!")
+    print '✅ git pull realizado com sucesso!'
   else
-    print("❌ Erro no git pull:\n" .. output)
+    print('❌ Erro no git pull:\n' .. output)
   end
 end, {})
+
+-- Função para mostrar mensagens ao usuário
+local function notify(msg, level)
+  vim.notify(msg, level or vim.log.levels.INFO, { title = 'Git Helper' })
+end
+
+-- A lógica principal do nosso comando
+local function setup_repo(opts)
+  local remote_url = opts.args
+  if not remote_url or remote_url == '' then
+    notify('❌ Erro: Forneça a URL SSH do repositório.', vim.log.levels.ERROR)
+    return
+  end
+
+  -- Helper para rodar comandos no shell
+  local function run_cmd(command)
+    -- Usamos vim.fn.system para rodar e capturar a saída (se necessário)
+    -- O '2>&1' redireciona o erro para a saída padrão, para podermos ver
+    local output = vim.fn.system(command .. ' 2>&1')
+    -- Checa se o comando falhou
+    if vim.v.shell_error ~= 0 then
+      notify('Falha ao executar: ' .. command .. '\n' .. output, vim.log.levels.ERROR)
+      return false -- indica falha
+    end
+    return true -- indica sucesso
+  end
+
+  -- 1. Inicia o repo se necessário
+  if vim.fn.isdirectory '.git' == 0 then
+    notify '🔧 Inicializando um novo repositório Git...'
+    if not run_cmd 'git init' then
+      return
+    end
+  else
+    notify '✅ Repositório Git já existe.'
+  end
+
+  -- 2. Cria README.md se não existir
+  if vim.fn.filereadable 'README.md' == 0 then
+    notify '📝 Criando arquivo README.md...'
+    vim.fn.writefile({ '# workout_API' }, 'README.md')
+  end
+
+  -- 3. Adiciona e commita
+  notify '📦 Adicionando arquivos...'
+  if not run_cmd 'git add .' then
+    return
+  end
+
+  notify '🚀 Realizando o commit inicial...'
+  -- Apenas commita se houver algo para commitar, para evitar erro
+  run_cmd 'git diff-index --quiet HEAD -- || git commit -m "Initial"'
+
+  -- 4. Garante que a branch é 'main'
+  notify "🌿 Renomeando a branch para 'main'..."
+  if not run_cmd 'git branch -M main' then
+    return
+  end
+
+  -- 5. Configura o remote
+  -- Checa se o remote 'origin' já existe
+  if vim.fn.system 'git remote get-url origin > /dev/null 2>&1' == '' then
+    notify "🔗 Adicionando o remote 'origin'..."
+    if not run_cmd('git remote add origin ' .. remote_url) then
+      return
+    end
+  else
+    notify "🔄 Atualizando a URL do remote 'origin'..."
+    if not run_cmd('git remote set-url origin ' .. remote_url) then
+      return
+    end
+  end
+
+  -- 6. Faz o push inicial
+  notify '📤 Enviando para o GitHub...'
+  if not run_cmd 'git push -u origin main' then
+    return
+  end
+
+  notify('✨ Processo concluído com sucesso!', vim.log.levels.INFO)
+end
+
+-- Cria o comando de usuário no Neovim
+vim.api.nvim_create_user_command(
+  'InitRepo', -- Nome do comando
+  setup_repo, -- Função a ser chamada
+  {
+    nargs = 1, -- Espera exatamente 1 argumento
+    complete = 'shellcmd', -- Ajuda a autocompletar, mas é opcional
+    desc = 'Inicializa o repositório e envia para o GitHub. Uso: :InitRepo <url_ssh>',
+  }
+)
 
 -- ==========================================
 -- ======= Recarregar Lsp =========
 -- ==========================================
 
-vim.api.nvim_create_user_command("LspReload", function()
+vim.api.nvim_create_user_command('LspReload', function()
   for _, client in ipairs(vim.lsp.get_active_clients()) do
     vim.lsp.stop_client(client.id)
   end
-  vim.cmd("edit")     -- força reload do buffer atual
-  vim.cmd("LspStart") -- reinicia todos os LSPs ativos
-  print("🔁 LSP reiniciado.")
+  vim.cmd 'edit' -- força reload do buffer atual
+  vim.cmd 'LspStart' -- reinicia todos os LSPs ativos
+  print '🔁 LSP reiniciado.'
 end, {})
-
-

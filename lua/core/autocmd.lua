@@ -152,3 +152,31 @@ vim.api.nvim_create_user_command('GitignoreMenu', function()
   vim.keymap.set('n', 'q', function() vim.api.nvim_win_close(win, true) end, { buffer = buf, silent = true })
   vim.keymap.set('n', '<Esc>', function() vim.api.nvim_win_close(win, true) end, { buffer = buf, silent = true })
 end, {})
+
+-- ==========================================
+-- ======= Salvar Ao sair do insert =========
+-- ==========================================
+
+vim.api.nvim_create_autocmd("InsertLeave", {
+  pattern = "*",
+  callback = function()
+    if vim.bo.modified and vim.bo.filetype ~= '' and vim.bo.buftype == '' then
+      vim.cmd("silent write")
+    end
+  end,
+})
+
+-- ==========================================
+-- ======= Criar Requiriments python ========
+-- ==========================================
+
+
+vim.api.nvim_create_user_command("FreezeRequirements", function()
+  local output = vim.fn.system("pip freeze > requirements.txt")
+  if vim.v.shell_error == 0 then
+    print("requirements.txt atualizado com sucesso.")
+  else
+    print("Erro ao executar pip freeze: " .. output)
+  end
+end, {})
+

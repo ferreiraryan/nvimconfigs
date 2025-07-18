@@ -195,3 +195,58 @@ vim.api.nvim_create_user_command("Pip", function(packg)
 end, {
   nargs = 1,
 })
+
+-- ==========================================
+-- ============== Comandos Git ==============
+-- ==========================================
+
+
+vim.api.nvim_create_user_command("GitAddAll", function()
+  local output = vim.fn.system("git add .")
+  if vim.v.shell_error == 0 then
+    print("Arquivos Adicionados com sucesso!")
+  else
+    print("Erro ao Adicionar: " .. output)
+  end
+end, {})
+
+
+
+vim.api.nvim_create_user_command("GitCommit", function(opts)
+  local tipo = opts.fargs[1]
+  local escopo = ""
+  local mensagem
+
+  -- Verifica se tem pelo menos dois argumentos (tipo e mensagem)
+  if #opts.fargs < 2 then
+    print("Uso: :GitCommit <tipo> [escopo] <mensagem>")
+    return
+  end
+
+  -- Se houver três ou mais argumentos, assume que o segundo é o escopo
+  if #opts.fargs >= 3 then
+    escopo = "(" .. opts.fargs[2] .. ")"
+    mensagem = table.concat(opts.fargs, " ", 3)
+  else
+    mensagem = table.concat(opts.fargs, " ", 2)
+  end
+
+  local commit_msg = tipo .. escopo .. ": " .. mensagem
+
+  -- Adiciona e commita
+  local add_output = vim.fn.system("git add .")
+  if vim.v.shell_error ~= 0 then
+    print("Erro ao adicionar arquivos: " .. add_output)
+    return
+  end
+
+  local commit_output = vim.fn.system("git commit -m '" .. commit_msg .. "'")
+  if vim.v.shell_error == 0 then
+    print("Commit realizado: " .. commit_msg)
+  else
+    print("Erro ao commitar: " .. commit_output)
+  end
+end, {
+  nargs = "+", 
+  complete = nil,
+})

@@ -161,13 +161,12 @@ end, {})
 -- ======= salvar ao sair do insert =========
 -- ==========================================
 
-vim.api.nvim_create_autocmd('InsertLeave', {
+-- Alternativa para o seu autocmd de 'InsertLeave'
+vim.api.nvim_create_autocmd('FocusLost', {
+  group = my_augroup,
+  desc = 'Salvar arquivos quando o Neovim perde o foco',
   pattern = '*',
-  callback = function()
-    if vim.bo.modified and vim.bo.filetype ~= '' and vim.bo.buftype == '' then
-      vim.cmd 'silent write'
-    end
-  end,
+  command = 'silent! wall', -- Salva todos os buffers modificados
 })
 
 -- ==========================================

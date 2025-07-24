@@ -57,14 +57,10 @@ map('n', '<leader>wv', '<C-w>H', { desc = 'Mover janela para vertical (esquerda)
 map('n', '<leader>wh', '<C-w>K', { desc = 'Mover janela para horizontal (acima)' })
 
 -- Diagnósticos
-map('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Abrir lista de diagnósticos' })
+map('n', '<leader>d', vim.diagnostic.setloclist, { desc = 'Abrir lista de diagnósticos' })
 
 -- Markdown
 map('n', '<leader>fj', format_markdown_ignore_headers, { desc = 'Justificar parágrafos (Markdown)' })
-
--- REST Client
-map('n', '<leader>rr', '<cmd>Rest run<CR>', { desc = 'Executar requisição REST' })
-map('n', '<leader>rp', '<cmd>Rest run last<CR>', { desc = 'Repetir última requisição REST' })
 
 -- Em lua/core/keymaps.lua
 -- Exemplo de como configurar após a instalação com lazy.nvim

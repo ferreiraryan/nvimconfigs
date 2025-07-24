@@ -2,29 +2,22 @@
 
 return {
   'stevearc/conform.nvim',
-  event = { 'BufWritePre' },
-  cmd = { 'ConformInfo' },
   opts = {
     formatters_by_ft = {
       lua = { 'stylua' },
-      python = { 'ruff_format', 'black' },
-      
-      -- Bônus: exemplos para web (SINTAXE CORRIGIDA)
-      javascript = { 'prettierd', 'prettier' },      -- ANTES: { { 'prettierd', 'prettier' } }
-      typescript = { 'prettierd', 'prettier' },      -- ANTES: { { 'prettierd', 'prettier' } }
-      javascriptreact = { 'prettierd', 'prettier' }, -- ANTES: { { 'prettierd', 'prettier' } }
-      typescriptreact = { 'prettierd', 'prettier' }, -- ANTES: { { 'prettierd', 'prettier' } }
-      html = { 'prettierd', 'prettier' },            -- ANTES: { { 'prettierd', 'prettier' } }
-      css = { 'prettierd', 'prettier' },             -- ANTES: { { 'prettierd', 'prettier' } }
-      json = { 'prettierd', 'prettier' },            -- ANTES: { { 'prettierd', 'prettier' } }
-      yaml = { 'prettierd', 'prettier' },            -- ANTES: { { 'prettierd', 'prettier' } }
-      markdown = { 'prettierd', 'prettier' },        -- ANTES: { { 'prettierd', 'prettier' } }
+      python = { 'black' },
+      javascript = { 'prettierd' },
+      typescript = { 'prettierd' },
+      html = { 'prettierd' },
+      css = { 'prettierd' },
+      json = { 'prettierd' },
+      dart = { 'dart_format' },
     },
-
+    -- Configura para formatar sempre que o arquivo for salvo
     format_on_save = {
-      async = false, 
+      -- Aumentado de 500ms para 2s para evitar timeouts
+      timeout_ms = 2000,
       lsp_fallback = true,
-      timeout_ms = 500,
     },
   },
 }

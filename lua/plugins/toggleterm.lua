@@ -18,7 +18,7 @@ return {
     -- Função para abrir o lazygit
     function _G.Lazygit_toggle()
       local Terminal = require('toggleterm.terminal').Terminal
-      local lazygit = Terminal:new({ cmd = 'lazygit', hidden = true })
+      local lazygit = Terminal:new { cmd = 'lazygit', hidden = true }
       lazygit:toggle()
     end
 

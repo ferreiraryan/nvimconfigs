@@ -37,7 +37,7 @@ map('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Sair do modo terminal' })
 -- map('n', '<leader>fd', vim.lsp.buf.format, { desc = 'Formatar arquivo' })
 -- ADICIONE ESTA LINHA NOVA:
 vim.keymap.set({ 'n', 'v' }, '<leader>fd', function()
-  require('conform').format({ async = true, lsp_fallback = true })
+  require('conform').format { async = true, lsp_fallback = true }
 end, { desc = 'Formatar arquivo' })
 
 -- Atalho de verificação ortográfica
@@ -77,3 +77,23 @@ end, { desc = 'Comentar/descomentar linha atual' })
 
 -- Mapeia 'gc' para comentar a seleção no modo Visual
 vim.keymap.set('v', 'gc', '<ESC><CMD>lua require("Comment.api").toggle.linewise(vim.fn.visualmode())<CR>', { desc = 'Comentar/descomentar seleção' })
+
+vim.keymap.set('v', '<leader>r', function()
+  require('refactoring').select_refactor {
+    -- Esta linha é a chave!
+    lsp_actions = true,
+  }
+end)
+
+-- ~/.config/nvim/lua/core/keymaps.lua
+
+local map = vim.keymap.set
+
+-- Modo Normal
+map('n', '<leader>e', ':NvimTreeToggle<CR>', { desc = 'Toggle File Explorer' }) -- Assumindo que você usa nvim-tree
+map('n', '<leader>w', ':w<CR>', { desc = 'Save File' })
+map('n', '<leader>q', ':q<CR>', { desc = 'Quit' })
+
+-- Modo Visual
+map('v', '<', '<gv', { desc = 'Indent Left' })
+map('v', '>', '>gv', { desc = 'Indent Right' })

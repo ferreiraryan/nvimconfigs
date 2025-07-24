@@ -5,9 +5,9 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Carrega as configurações principais
-require('core.options')
-require('core.keymaps')
-require('core.autocmd')
+require 'core.options'
+require 'core.keymaps'
+require 'core.autocmd'
 
 -- Instala e inicializa o gerenciador de plugins `lazy.nvim`
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -21,7 +21,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 -- Configura o Lazy para carregar os plugins da pasta lua/plugins/
-require('lazy').setup({
+require('lazy').setup {
   spec = {
     -- Importa automaticamente todos os arquivos .lua do diretório de plugins
     { import = 'plugins' },
@@ -44,8 +44,9 @@ require('lazy').setup({
       lazy = '💤 ',
     },
     rocks = {
-      enabled = true,    
+      enabled = true,
       hererocks = true,
     },
   },
-})
+}
+

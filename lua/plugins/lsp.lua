@@ -1,48 +1,72 @@
--- lua/plugins/lsp.lua
 return {
   'neovim/nvim-lspconfig',
   dependencies = {
-    'williamboman/mason.nvim',
-    'williamboman/mason-lspconfig.nvim',
-    'hrsh7th/nvim-cmp',
-    'hrsh7th/cmp-nvim-lsp',
-    { 'j-hui/fidget.nvim',  tag = 'legacy', opts = {} },
-    { 'folke/lazydev.nvim', ft = 'lua' },
+    -- Gerenciamento de LSPs e ferramentas
+    'mason-org/mason.nvim',
+    'mason-org/mason-lspconfig.nvim',
+
+    -- Melhorias para Flutter (ESSENCIAL)
+    {
+      'akinsho/flutter-tools.nvim',
+      dependencies = { 'nvim-lua/plenary.nvim' },
+    },
+
+    -- UI e Autocompletar
+    { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} },
+    'saghen/blink.cmp',
   },
   config = function()
-    local capabilities = require('cmp_nvim_lsp').default_capabilities()
-    local on_attach = function(client, bufnr)
-      local map = function(keys, func, desc, mode)
-        vim.keymap.set(mode or 'n', keys, func, { buffer = bufnr, desc = 'LSP: ' .. desc })
-      end
-      map('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
-      map('grn', vim.lsp.buf.rename, '[R]e[n]ame')
-      map('gra', vim.lsp.buf.code_action, '[G]oto Code [A]ction')
-      map('K', vim.lsp.buf.hover, 'Hover Documentation')
+    -- Lista de pacotes para o Mason instalar. Usamos os nomes exatos do Mason.
+    local ensure_installed = {
+      -- LSPs
+      'dart-sdk',
+      'lua-language-server',
+      'pyright',
+      'ruff-lsp',
+      'css-lsp',
+      'html-lsp',
+      'json-lsp',
+      'tailwindcss-language-server',
+      'typescript-language-server', -- Nome do pacote para 'ts_ls'
 
+      -- Ferramentas (Formatadores, etc)
+      'stylua',
+    }
 
-    end
-
-    local function has_tool_config(root_dir, tool_name)
-      local toml_path = root_dir .. '/pyproject.toml'
-      if vim.fn.filereadable(toml_path) == 0 then return false end
-      local file = io.open(toml_path, 'r')
-      if not file then return false end
-      local content = file:read '*a'
-      file:close()
-      return content:match('%[tool.' .. tool_name .. '%]')
-    end
-
+    -- Setup do Mason
     require('mason').setup()
 
-    local servers = { 'ruff', 'pyright', 'lua_ls', 'jsonls', 'html', 'cssls', 'marksman', 'tailwindcss' }
+    -- Anexa os atalhos de teclado quando um LSP inicia
+    local on_attach = function(client, bufnr)
+      local map = function(keys, func, desc)
+        vim.keymap.set('n', keys, func, { buffer = bufnr, desc = 'LSP: ' .. desc })
+      end
 
+      -- Mapeamentos essenciais (usando Telescope)
+      map('grd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+      map('grr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+      map('gri', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
+      map('K', vim.lsp.buf.hover, 'Hover Documentation')
+      map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
+      map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+    end
+
+    -- Capacidades para o autocompletar
+    local capabilities = require('blink.cmp').get_lsp_capabilities()
+
+    -- Configura o mason-lspconfig para usar a lista e os handlers
     require('mason-lspconfig').setup {
-      ensure_installed = servers,
+      ensure_installed = ensure_installed,
       handlers = {
-        function(server_name) -- Handler Padrão
-          require('lspconfig')[server_name].setup { on_attach = on_attach, capabilities = capabilities }
+        -- Handler padrão para servidores sem configuração especial
+        function(server_name)
+          require('lspconfig')[server_name].setup {
+            on_attach = on_attach,
+            capabilities = capabilities,
+          }
         end,
+
+        -- Handler customizado para Lua
         ['lua_ls'] = function()
           require('lspconfig').lua_ls.setup {
             on_attach = on_attach,
@@ -50,34 +74,36 @@ return {
             settings = { Lua = { diagnostics = { globals = { 'vim' } } } },
           }
         end,
-        ['pyright'] = function() -- Handler do Pyright
-          require('lspconfig').pyright.setup {
-            on_attach = on_attach,
-            capabilities = capabilities,
-            root_dir = function(fname)
-              local root = require('lspconfig.util').root_pattern('pyproject.toml', '.git')(fname)
-              if root and has_tool_config(root, 'pyright') then return root end
-            end,
-          }
-        end,
-        ['ruff'] = function() -- Handler do Ruff
-          require('lspconfig').ruff.setup {
-            capabilities = capabilities,
-            root_dir = function(fname)
-              local root = require('lspconfig.util').root_pattern('pyproject.toml', '.git')(fname)
-              if root and has_tool_config(root, 'ruff') then return root end
-            end,
+
+        -- Handler do Dart com integração do Flutter Tools
+        ['dartls'] = function()
+          require('lspconfig').dartls.setup {
             on_attach = function(client, bufnr)
-              -- Desativa os diagnósticos do Ruff no editor
-              vim.diagnostic.disable(bufnr, vim.lsp.get_namespace(client.id))
-              -- Permite que a formatação continue funcionando
-              if client.supports_method 'textDocument/formatting' then
-                vim.keymap.set('n', '<leader>fd', function()
-                  vim.lsp.buf.format { async = true, bufnr = bufnr }
-                end, { buffer = bufnr, desc = 'Formatar com Ruff' })
+              -- Ativa os atalhos LSP padrão
+              on_attach(client, bufnr)
+
+              -- Define atalhos específicos para Flutter APENAS em arquivos Dart
+              local fmap = function(keys, func, desc)
+                vim.keymap.set('n', keys, func, { buffer = bufnr, desc = 'Flutter: ' .. desc })
               end
+              fmap('<leader>fr', require('flutter-tools').reload, '[R]eload')
+              fmap('<leader>fR', require('flutter-tools').restart, '[R]estart')
+              fmap('<leader>fq', require('flutter-tools').quit, '[Q]uit App')
+              fmap('<leader>ft', require('flutter-tools').open_flutter_outline, 'Open Ou[t]line')
             end,
+            capabilities = capabilities,
+            settings = {
+              dart = {
+                -- Essas opções ativam features úteis do LSP para Flutter
+                closingLabels = true,
+                flutterOutline = true,
+                outline = true,
+              },
+            },
           }
+
+          -- Configura o plugin flutter-tools
+          require('flutter-tools').setup {}
         end,
       },
     }

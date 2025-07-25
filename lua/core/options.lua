@@ -44,7 +44,7 @@ vim.opt.undofile = true -- Habilitar histórico de "desfazer" persistente
 vim.opt.swapfile = false -- NOVO: Desabilitar arquivo de swap (undofile é melhor)
 vim.opt.backup = false -- NOVO: Desabilitar arquivo de backup
 vim.opt.updatetime = 250 -- Tempo para plugins reagirem a eventos (ex: git signs)
-vim.opt.timeoutlen = 300 -- Tempo de espera para mapeamentos de teclas
+vim.opt.timeoutlen = 1000 -- Tempo de espera para mapeamentos de teclas
 
 -- [[ Clipboard ]]
 -- Sincroniza com o clipboard do sistema (Ctrl+C/Ctrl+V)

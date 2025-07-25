@@ -93,9 +93,9 @@ return {
                   vim.keymap.set('n', keys, func, { buffer = bufnr, desc = 'Flutter: ' .. desc })
                 end
                 -- MUDANÇAS AQUI:
-                fmap('<leader>rr', require('flutter-tools').reload, '[R]eload')
-                fmap('<leader>rR', require('flutter-tools').restart, '[R]estart')
-                fmap('<leader>rq', require('flutter-tools').quit, '[Q]uit App')
+                fmap('<leader>fr', require('flutter-tools').reload, '[F]lutter [R]eload')
+                fmap('<leader>fR', require('flutter-tools').restart, '[F]lutter [R]estart')
+                fmap('<leader>fq', require('flutter-tools').quit, '[F]lutter [Q]uit App')
               end,
             }
           end,

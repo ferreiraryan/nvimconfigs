@@ -27,6 +27,11 @@ local function format_markdown_ignore_headers()
   end
 end
 
+-- Cola sempre do registro 0 no modo normal
+vim.keymap.set('n', 'p', '"0p')
+
+-- Cola no modo visual sem perder o yank
+vim.keymap.set('x', 'p', '"_dP')
 -- Atalhos Gerais
 map('i', 'jk', '<Esc>', { noremap = true, silent = true, desc = 'Sair do modo de Inserção' })
 map('n', '<C-r>', ':redo<CR>', { noremap = true, desc = 'Refazer (Redo)' })

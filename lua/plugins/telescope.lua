@@ -17,11 +17,26 @@ return {
   config = function()
     local telescope = require 'telescope'
     local builtin = require 'telescope.builtin'
+    local actions = require 'telescope.actions' -- ✅ Importa as actions
 
     telescope.setup {
       extensions = {
         ['ui-select'] = {
           require('telescope.themes').get_dropdown(),
+        },
+      },
+      defaults = {
+        mappings = {
+          i = {
+            -- ✅ Mapeia Ctrl+j e Ctrl+k para mover a seleção
+            ['<C-j>'] = actions.move_selection_next,
+            ['<C-k>'] = actions.move_selection_previous,
+          },
+          n = {
+            -- (opcional) Também ativa no modo normal do Telescope
+            ['<C-j>'] = actions.move_selection_next,
+            ['<C-k>'] = actions.move_selection_previous,
+          },
         },
       },
     }

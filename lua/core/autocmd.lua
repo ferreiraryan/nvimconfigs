@@ -29,18 +29,18 @@ autocmd('FileType', {
 })
 
 -- Adicione em algum lugar da sua configuração do Neovim
-vim.api.nvim_create_user_command('ProjectInitPython', function()
+vim.api.nvim_create_user_command('DjangoInit', function()
   -- Pega o diretório atual
   local current_dir = vim.fn.getcwd()
   -- Define o caminho do template
-  local template_path = os.getenv 'HOME' .. '/.config/nvim/templates/python_pyproject.toml'
+  local template_path = os.getenv 'HOME' .. '/.config/nvim/templates/django_pyproject.toml'
   -- Comando para copiar o template para o diretório atual
   local cmd = 'cp ' .. template_path .. ' ' .. current_dir .. '/pyproject.toml'
 
   -- Executa o comando e notifica o usuário
   local result = os.execute(cmd)
   if result then
-    vim.notify('✅ Projeto Python iniciado com pyproject.toml', vim.log.levels.INFO)
+    vim.notify('✅ Projeto Django iniciado com pyproject.toml', vim.log.levels.INFO)
     vim.cmd 'edit pyproject.toml' -- Abre o arquivo recém-criado
   else
     vim.notify('❌ Falha ao iniciar o projeto.', vim.log.levels.ERROR)

@@ -1,14 +1,14 @@
 -- init.lua
 
-local original_notify = vim.notify
-vim.notify = function(msg, level, opts)
-  -- Verifica se a mensagem é de nível INFO e contém o texto que queremos ignorar
-  if level == vim.log.levels.INFO and msg:find('spawning new client', 1, true) then
-    return -- Não faz nada, escondendo a notificação
-  end
+-- init.lua
 
-  -- Para todas as outras notificações, usa a função original
-  original_notify(msg, level, opts)
+-- Silenciar avisos do mason-lspconfig
+local orig_notify = vim.notify
+vim.notify = function(msg, level, opts)
+  if msg:match 'is not a valid entry in ensure_installed' then
+    return
+  end
+  orig_notify(msg, level, opts)
 end
 -- Define a tecla líder ANTES de carregar qualquer outra coisa
 vim.g.mapleader = ' '

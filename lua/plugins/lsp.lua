@@ -34,6 +34,7 @@ return {
     config = function()
       local servers = {
         -- LSPs
+        'ruff',
         'lua_ls',
         'pyright',
         'cssls',

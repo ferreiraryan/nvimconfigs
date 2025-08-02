@@ -24,21 +24,6 @@ return {
           require('telescope.themes').get_dropdown(),
         },
       },
-      defaults = {
-        mappings = {
-          -- Mapeamentos para o modo de Inserção
-          i = {
-            ['<C-j>'] = require('telescope.actions').move_selection_next,
-            ['<C-k>'] = require('telescope.actions').move_selection_previous,
-          },
-          -- Mapeamentos para o modo Normal (após apertar <Esc> no Telescope)
-          n = {
-            ['j'] = require('telescope.actions').move_selection_next,
-            ['k'] = require('telescope.actions').move_selection_previous,
-          },
-        },
-      },
-      --------
     }
 
     pcall(telescope.load_extension, 'fzf')
@@ -61,4 +46,3 @@ return {
     end, { desc = '[S]earch [N]eovim files' })
   end,
 }
-

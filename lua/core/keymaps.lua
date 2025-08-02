@@ -2,6 +2,7 @@
 
 local map = vim.keymap.set
 
+local vim = vim
 -- Função para justificar parágrafos em markdown ignorando títulos
 local function format_markdown_ignore_headers()
   local start_line = nil
@@ -98,3 +99,27 @@ map('n', '<leader>q', ':q<CR>', { desc = 'Quit' })
 -- Modo Visual
 map('v', '<', '<gv', { desc = 'Indent Left' })
 map('v', '>', '>gv', { desc = 'Indent Right' })
+
+-- Atalhos para o Harpoon
+-- Sua tecla <leader> + 'a' para adicionar o arquivo atual à lista
+vim.keymap.set('n', '<leader>a', function()
+  require('harpoon'):list():add()
+end, { desc = '[A]dicionar arquivo ao Harpoon' })
+-- Sua tecla <leader> + 'h' para ver a lista de arquivos
+vim.keymap.set('n', '<leader>h', function()
+  require('harpoon').ui:toggle_quick_menu(require('harpoon'):list())
+end, { desc = 'Abrir menu do [H]arpoon' })
+
+-- Atalhos para navegar rapidamente entre os arquivos 1, 2, 3 e 4 da lista
+vim.keymap.set('n', '<leader>1', function()
+  require('harpoon'):list():select(1)
+end, { desc = 'Harpoon: Ir para arquivo 1' })
+vim.keymap.set('n', '<leader>2', function()
+  require('harpoon'):list():select(2)
+end, { desc = 'Harpoon: Ir para arquivo 2' })
+vim.keymap.set('n', '<leader>3', function()
+  require('harpoon'):list():select(3)
+end, { desc = 'Harpoon: Ir para arquivo 3' })
+vim.keymap.set('n', '<leader>4', function()
+  require('harpoon'):list():select(4)
+end, { desc = 'Harpoon: Ir para arquivo 4' })

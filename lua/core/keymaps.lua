@@ -131,3 +131,6 @@ vim.keymap.set('n', '<A-j>', ':m +1<CR>', { silent = true })
 -- Mover blocos de linhas no modo Visual
 vim.keymap.set('v', '<A-k>', ":m '<-2<CR>gv=gv", { silent = true })
 vim.keymap.set('v', '<A-j>', ":m '>+1<CR>gv=gv", { silent = true })
+-- Adicionar ao init.lua ou arquivo de keymaps
+-- s de substitute (substituir)
+vim.keymap.set('n', '<leader>s', [[:%s/<C-r><C-w>/]], { desc = '[S]ubstituir palavra sob o cursor' })

@@ -78,7 +78,8 @@ vim.keymap.set('n', 'gcc', function()
 end, { desc = 'Comentar/descomentar linha atual' })
 
 -- Mapeia 'gc' para comentar a seleção no modo Visual
-vim.keymap.set('v', 'gc', '<ESC><CMD>lua require("Comment.api").toggle.linewise(vim.fn.visualmode())<CR>', { desc = 'Comentar/descomentar seleção' })
+vim.keymap.set('v', 'gc', '<ESC><CMD>lua require("Comment.api").toggle.linewise(vim.fn.visualmode())<CR>',
+  { desc = 'Comentar/descomentar seleção' })
 
 vim.keymap.set('v', '<leader>r', function()
   require('refactoring').select_refactor {
@@ -134,3 +135,8 @@ vim.keymap.set('v', '<A-j>', ":m '>+1<CR>gv=gv", { silent = true })
 -- Adicionar ao init.lua ou arquivo de keymaps
 -- s de substitute (substituir)
 vim.keymap.set('n', '<leader>s', [[:%s/<C-r><C-w>/]], { desc = '[S]ubstituir palavra sob o cursor' })
+
+
+-- vim.keymap.set('n','<leader>gr')
+
+vim.keymap.set("n", "<leader>r", "<cmd>OverseerRun<CR>", { desc = "Run code" })

@@ -32,6 +32,7 @@ return {
         'dart',
         'json',
         'markdown',
+        'markdown_inline',
         'bash',
         'htmldjango',
       },

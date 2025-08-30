@@ -28,6 +28,16 @@ autocmd('FileType', {
   end,
 })
 
+-- Coloque em ~/.config/nvim/init.lua ou similar
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'markdown',
+  desc = 'Desativar diagnósticos para arquivos Markdown',
+  callback = function(args)
+    vim.diagnostic.disable(args.buf)
+  end,
+})
+
 -- Adicione em algum lugar da sua configuração do Neovim
 vim.api.nvim_create_user_command('DjangoInit', function()
   -- Pega o diretório atual
@@ -163,10 +173,22 @@ end, {})
 
 -- Alternativa para o seu autocmd de 'InsertLeave'
 vim.api.nvim_create_autocmd('FocusLost', {
-  group = my_augroup,
-  desc = 'Salvar arquivos quando o Neovim perde o foco',
+  group = my_augroup, -- Use o mesmo grupo que você já tem
+  desc = 'Salvar arquivos (exceto Markdown) quando o Neovim perde o foco',
   pattern = '*',
-  command = 'silent! wall', -- Salva todos os buffers modificados
+  callback = function()
+    -- Itera sobre todos os buffers abertos
+    for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+      -- Condições para salvar:
+      -- 1. O buffer está carregado na memória
+      -- 2. O buffer foi modificado
+      -- 3. O tipo de arquivo NÃO é 'markdown'
+      if vim.api.nvim_buf_is_loaded(bufnr) and vim.bo[bufnr].modified and vim.bo[bufnr].filetype ~= 'markdown' then
+        -- Salva o buffer específico sem precisar mudar para ele
+        vim.cmd('silent! bwrite ' .. bufnr)
+      end
+    end
+  end,
 })
 
 -- ==========================================

@@ -37,6 +37,8 @@ return {
         'tailwindcss', -- << Reativado
         'tsserver',
         'dartls',
+        'jdtls',
+        'marksman',
       }
 
       local on_attach = function(client, bufnr)
@@ -86,6 +88,18 @@ return {
               on_attach = on_attach,
               capabilities = capabilities,
               filetypes = { 'html', 'css', 'scss', 'javascriptreact', 'typescriptreact', 'jinja.html', 'djangohtml' },
+            }
+          end,
+          ['marksman'] = function()
+            require('lspconfig').marksman.setup {
+              capabilities = capabilities,
+              on_attach = function(client, bufnr)
+                -- 1. Executa sua função on_attach padrão para ter os atalhos
+                on_attach(client, bufnr)
+
+                -- 2. Desativa os diagnósticos APENAS para este buffer
+                vim.diagnostic.disable(bufnr)
+              end,
             }
           end,
 

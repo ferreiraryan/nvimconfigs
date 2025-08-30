@@ -55,6 +55,7 @@ end)
 
 -- [[ Diagnósticos do LSP ]]
 -- Configura como os erros e avisos do LSP são exibidos
+vim.opt.foldenable = false
 vim.diagnostic.config {
   underline = true,
   signs = true,

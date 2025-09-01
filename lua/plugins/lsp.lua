@@ -39,6 +39,7 @@ return {
         'dartls',
         'jdtls',
         'marksman',
+        'djlint',
       }
 
       local on_attach = function(client, bufnr)
@@ -119,12 +120,16 @@ return {
               capabilities = capabilities,
             }
           end,
+          ['djlint'] = function()
+            lspconfig.djlint.setup {
+              filetypes = { 'html', 'djangohtml', 'htmldjango' },
+            }
+          end,
         },
       }
     end,
   },
 
-  -- 3. AJUDA DE ASSINATURA
   {
     'ray-x/lsp_signature.nvim',
     event = 'VeryLazy',

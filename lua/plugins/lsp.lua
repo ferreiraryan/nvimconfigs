@@ -21,7 +21,7 @@ return {
     'neovim/nvim-lspconfig',
     dependencies = {
       'williamboman/mason-lspconfig.nvim',
-      { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} },
+      { 'j-hui/fidget.nvim',          tag = 'legacy',                            opts = {} },
       { 'akinsho/flutter-tools.nvim', dependencies = { 'nvim-lua/plenary.nvim' } },
     },
     config = function()
@@ -125,6 +125,33 @@ return {
               filetypes = { 'html', 'djangohtml', 'htmldjango' },
             }
           end,
+          ['tsserver'] = function()
+            require('lspconfig').tsserver.setup {
+              on_attach = function(client, bufnr)
+                -- chama o on_attach padrão (atalhos, etc.)
+                on_attach(client, bufnr)
+
+                -- desativa o formatador do tsserver (deixa pra prettier ou null-ls)
+                client.server_capabilities.documentFormattingProvider = false
+                client.server_capabilities.documentRangeFormattingProvider = false
+
+                -- atalhos extras só pra TS/JS
+                local map = function(mode, keys, func, desc)
+                  vim.keymap.set(mode, keys, func, { buffer = bufnr, desc = 'TS: ' .. desc })
+                end
+
+                map('n', '<leader>oi', function()
+                  vim.lsp.buf.execute_command({
+                    command = '_typescript.organizeImports',
+                    arguments = { vim.api.nvim_buf_get_name(0) },
+                  })
+                end, '[O]rganizar [I]mports')
+              end,
+              capabilities = capabilities,
+              filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
+            }
+          end,
+
         },
       }
     end,

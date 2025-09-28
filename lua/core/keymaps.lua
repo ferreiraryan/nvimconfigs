@@ -137,6 +137,19 @@ vim.keymap.set('v', '<A-j>', ":m '>+1<CR>gv=gv", { silent = true })
 vim.keymap.set('n', '<leader>s', [[:%s/<C-r><C-w>/]], { desc = '[S]ubstituir palavra sob o cursor' })
 
 
--- vim.keymap.set('n','<leader>gr')
+-- =========================
+-- Mapeamentos úteis
+-- =========================
+local opts = { noremap = true, silent = true }
 
-vim.keymap.set("n", "<leader>r", "<cmd>OverseerRun<CR>", { desc = "Run code" })
+-- Abrir interface Neogit
+vim.keymap.set('n', '<leader>gg', ':Neogit<CR>', opts)
+
+-- Abrir menu de branches dentro do Neogit
+vim.keymap.set('n', '<leader>gb', ':Neogit branch<CR>', opts)
+
+-- Criar nova branch
+vim.keymap.set('n', '<leader>gn', ':Neogit branch new<CR>', opts)
+
+-- Abrir status do Git diretamente (shortcut extra)
+vim.keymap.set('n', '<leader>gs', ':Neogit<CR>', opts)

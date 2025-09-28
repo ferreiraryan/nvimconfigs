@@ -1,7 +1,5 @@
 -- init.lua
 
--- init.lua
-
 -- Silenciar avisos do mason-lspconfig
 local orig_notify = vim.notify
 vim.notify = function(msg, level, opts)

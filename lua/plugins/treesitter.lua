@@ -35,6 +35,7 @@ return {
         'markdown_inline',
         'bash',
         'htmldjango',
+        'http'
       },
       highlight = {
         enable = true,

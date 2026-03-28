@@ -78,6 +78,25 @@ return {
         mappings = {
           ['\\'] = 'close_window',
           ['E'] = 'expand_subtree',
+          ["R"] = function(state)
+            local node = state.tree:get_node()
+            local path = node.path -- Caminho absoluto
+
+            -- Se for um arquivo, pega o diretório pai para rodar o comando lá
+            local target_path = node.type == "directory" and path or vim.fn.fnamemodify(path, ":h")
+
+            -- Abre um prompt para você digitar o comando (ex: touch, mkdir, chmod +x)
+            vim.ui.input({ prompt = 'Comando em ' .. target_path .. ': ' }, function(input)
+              if input and input ~= "" then
+                -- Executa o comando via shell de forma assíncrona
+                vim.fn.system(string.format("cd %s && %s", vim.fn.shellescape(target_path), input))
+
+                -- Feedback e Refresh na árvore para ver mudanças (novo arquivo, etc)
+                print("Executado: " .. input)
+                require("neo-tree.sources.manager").refresh(state.name)
+              end
+            end)
+          end,
         },
       },
     },

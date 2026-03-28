@@ -78,7 +78,8 @@ vim.keymap.set('n', 'gcc', function()
 end, { desc = 'Comentar/descomentar linha atual' })
 
 -- Mapeia 'gc' para comentar a seleção no modo Visual
-vim.keymap.set('v', 'gc', '<ESC><CMD>lua require("Comment.api").toggle.linewise(vim.fn.visualmode())<CR>', { desc = 'Comentar/descomentar seleção' })
+vim.keymap.set('v', 'gc', '<ESC><CMD>lua require("Comment.api").toggle.linewise(vim.fn.visualmode())<CR>',
+  { desc = 'Comentar/descomentar seleção' })
 
 vim.keymap.set('v', '<leader>r', function()
   require('refactoring').select_refactor {
@@ -158,3 +159,8 @@ vim.api.nvim_set_keymap('n', '<leader>f', '<Plug>SnipRunOperator', { silent = tr
 
 -- No seu keymaps.lua ou dentro do setup do obsidian.nvim
 vim.keymap.set('n', '<leader>ov', '<cmd>ObsidianQuickSwitch<cr>', { desc = 'Abrir Vault (Quick Switch)' })
+
+
+vim.keymap.set("n", "<leader>p", ":NeovimProjectDiscover<CR>", {
+  desc = "Abrir projetos"
+})

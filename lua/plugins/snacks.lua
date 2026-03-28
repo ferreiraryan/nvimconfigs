@@ -30,8 +30,15 @@ return {
         { section = 'header' }, -- Aqui você pode colocar uma ASCII Art foda
         { section = 'keys',   gap = 1, padding = 1 },
         { section = 'startup' },
+        {
+          icon = " ",
+          title = "Projects",
+          action = ":NeovimProjectDiscover",
+        },
+
       },
     },
+
     styles = {
       notification = {
         wo = { winblend = 10 }, -- Leve transparência nas notificações

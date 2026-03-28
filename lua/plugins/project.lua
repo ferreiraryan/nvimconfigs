@@ -2,10 +2,10 @@ return {
   "coffebar/neovim-project",
   opts = {
     projects = { -- define project roots
-      "~/Documents/projects/*",
+      "~/Documents/projects/*/*/*",
     },
     picker = {
-      type = "telescope", -- one of "telescope", "fzf-lua", or "snacks"
+      type = "snacks", -- one of "telescope", "fzf-lua", or "snacks"
     }
   },
   init = function()

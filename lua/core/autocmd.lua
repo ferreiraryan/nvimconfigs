@@ -315,7 +315,7 @@ local function setup_repo(opts)
       notify('Falha ao executar: ' .. command .. '\n' .. output, vim.log.levels.ERROR)
       return false -- indica falha
     end
-    return true -- indica sucesso
+    return true    -- indica sucesso
   end
 
   -- 1. Inicia o repo se necessário
@@ -375,10 +375,10 @@ end
 
 -- Cria o comando de usuário no Neovim
 vim.api.nvim_create_user_command(
-  'InitRepo', -- Nome do comando
-  setup_repo, -- Função a ser chamada
+  'InitRepo',              -- Nome do comando
+  setup_repo,              -- Função a ser chamada
   {
-    nargs = 1, -- Espera exatamente 1 argumento
+    nargs = 1,             -- Espera exatamente 1 argumento
     complete = 'shellcmd', -- Ajuda a autocompletar, mas é opcional
     desc = 'Inicializa o repositório e envia para o GitHub. Uso: :InitRepo <url_ssh>',
   }
@@ -392,7 +392,15 @@ vim.api.nvim_create_user_command('LspReload', function()
   for _, client in ipairs(vim.lsp.get_active_clients()) do
     vim.lsp.stop_client(client.id)
   end
-  vim.cmd 'edit' -- força reload do buffer atual
+  vim.cmd 'edit'     -- força reload do buffer atual
   vim.cmd 'LspStart' -- reinicia todos os LSPs ativos
   print '🔁 LSP reiniciado.'
 end, {})
+
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    if vim.fn.argc() == 0 then
+      require("snacks.dashboard").open()
+    end
+  end,
+})

@@ -9,6 +9,12 @@ return {
     'nvim-tree/nvim-web-devicons',
     'MunifTanjim/nui.nvim',
   },
+  filesystem = {
+    follow_current_file = {
+      enabled = true,
+    },
+    use_libuv_file_watcher = true,
+  },
   lazy = false,
   keys = {
     { '\\', ':Neotree reveal<CR>', desc = 'NeoTree reveal', silent = true },

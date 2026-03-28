@@ -1,4 +1,26 @@
 -- lua/core/autocmds.lua
+--
+
+vim.api.nvim_create_autocmd("User", {
+  pattern = "SessionLoadPre",
+  callback = function()
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+      local config = vim.api.nvim_win_get_config(win)
+      if config.relative ~= "" then
+        vim.api.nvim_win_close(win, true)
+      end
+    end
+  end,
+})
+
+vim.api.nvim_create_autocmd("BufWipeout", {
+  callback = function()
+    pcall(function()
+      vim.api.nvim_del_augroup_by_name("--Deleted--")
+    end)
+  end,
+})
+
 vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
 vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' })
 

@@ -18,32 +18,32 @@ vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' } -- Aparência do
 vim.opt.scrolloff = 8 -- Manter 8 linhas de contexto ao rolar
 
 -- [[ Comportamento do Editor ]]
-vim.opt.mouse = 'a' -- Habilitar o uso do mouse em todos os modos
+vim.opt.mouse = 'a'                      -- Habilitar o uso do mouse em todos os modos
 vim.opt.completeopt = 'menuone,noselect' -- NOVO: Melhora a experiência do menu de autocompleção
-vim.opt.confirm = true -- Pedir confirmação ao sair com arquivos não salvos
-vim.opt.breakindent = true -- Manter a indentação em linhas quebradas
-vim.opt.inccommand = 'split' -- Mostrar preview de substituições em um split
-vim.o.spell = false -- Desabilitar corretor ortográfico por padrão
+vim.opt.confirm = true                   -- Pedir confirmação ao sair com arquivos não salvos
+vim.opt.breakindent = true               -- Manter a indentação em linhas quebradas
+vim.opt.inccommand = 'split'             -- Mostrar preview de substituições em um split
+vim.o.spell = false                      -- Desabilitar corretor ortográfico por padrão
 vim.o.spelllang = 'pt_br'
 
 -- [[ Indentação ]]
-vim.opt.expandtab = true -- Usar espaços em vez de tabs
-vim.opt.tabstop = 2 -- Sua preferência: largura do tab = 2 espaços
-vim.opt.shiftwidth = 2 -- Sua preferência: tamanho da indentação = 2 espaços
-vim.opt.softtabstop = 2 -- Comportamento do backspace na indentação
-vim.opt.autoindent = true -- NOVO: Indentar novas linhas automaticamente
+vim.opt.expandtab = true   -- Usar espaços em vez de tabs
+vim.opt.tabstop = 2        -- Sua preferência: largura do tab = 2 espaços
+vim.opt.shiftwidth = 2     -- Sua preferência: tamanho da indentação = 2 espaços
+vim.opt.softtabstop = 2    -- Comportamento do backspace na indentação
+vim.opt.autoindent = true  -- NOVO: Indentar novas linhas automaticamente
 vim.opt.smartindent = true -- NOVO: Indentação inteligente para certas linguagens
 
 -- [[ Busca (Search) ]]
 vim.opt.ignorecase = true -- Ignorar maiúsculas/minúsculas na busca
-vim.opt.smartcase = true -- A menos que a busca contenha uma letra maiúscula
+vim.opt.smartcase = true  -- A menos que a busca contenha uma letra maiúscula
 
 -- [[ Performance e Arquivos ]]
-vim.opt.hidden = true -- NOVO: Permite trocar de buffer sem salvar
-vim.opt.undofile = true -- Habilitar histórico de "desfazer" persistente
-vim.opt.swapfile = false -- NOVO: Desabilitar arquivo de swap (undofile é melhor)
-vim.opt.backup = false -- NOVO: Desabilitar arquivo de backup
-vim.opt.updatetime = 250 -- Tempo para plugins reagirem a eventos (ex: git signs)
+vim.opt.hidden = true     -- NOVO: Permite trocar de buffer sem salvar
+vim.opt.undofile = true   -- Habilitar histórico de "desfazer" persistente
+vim.opt.swapfile = false  -- NOVO: Desabilitar arquivo de swap (undofile é melhor)
+vim.opt.backup = false    -- NOVO: Desabilitar arquivo de backup
+vim.opt.updatetime = 250  -- Tempo para plugins reagirem a eventos (ex: git signs)
 vim.opt.timeoutlen = 1000 -- Tempo de espera para mapeamentos de teclas
 
 -- [[ Clipboard ]]
@@ -66,3 +66,6 @@ vim.diagnostic.config {
   },
   severity_sort = true, -- Mostrar erros mais graves primeiro
 }
+
+vim.g.neo_tree_remove_legacy_commands = 1
+vim.o.autochdir = true

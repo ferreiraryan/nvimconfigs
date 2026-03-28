@@ -1,4 +1,5 @@
 -- init.lua
+
 vim.g.session_manager_autoload_mode = "Disabled"
 -- Silenciar avisos do mason-lspconfig
 local orig_notify = vim.notify

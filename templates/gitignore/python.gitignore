@@ -1,0 +1,68 @@
+# 1. Bytecode e Cache do Python
+################################
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+
+# 2. Ambientes Virtuais
+################################
+.venv/
+venv/
+env/
+ENV/
+*.env
+.env.*
+!.env.example
+
+# 3. Arquivos de Banco de Dados
+################################
+*.db
+*.sqlite3
+*.sql
+
+# 4. Arquivos de empacotamento e instalação
+###########################################
+build/
+dist/
+*.egg-info/
+*.egg
+wheelhouse/
+pip-wheel-metadata/
+*.tar.gz
+*.zip
+
+# 5. Arquivos de IDEs e Editores de Código
+#########################################
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+nbproject/
+*.swp
+
+# 6. Arquivos de Testes e Cobertura
+###################################
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+nosetests.xml
+pytestdebug.log
+
+# 7. Arquivos de Log
+####################
+*.log
+logs/
+
+# 8. Arquivos de Sistema Operacional
+####################################
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 9. Arquivos do Jupyter Notebook
+#################################
+.ipynb_checkpoints
+profile_default/

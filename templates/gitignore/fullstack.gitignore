@@ -1,0 +1,47 @@
+# =================================
+#  Python / Django
+# =================================
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+build/
+dist/
+*.egg-info/
+*.sqlite3
+/media/
+/static_root/
+/staticfiles/
+.pytest_cache/
+.coverage
+
+# =================================
+#  Node.js / JavaScript / TypeScript
+# =================================
+node_modules/
+.next/
+.nuxt/
+.svelte-kit/
+out/
+logs/
+*.log
+.eslintcache
+
+# =================================
+#  Arquivos Sensíveis e de IDE
+# =================================
+.env
+.env.*
+!.env.example
+.idea/
+.vscode/
+*.swp
+
+# =================================
+#  Sistema Operacional
+# =================================
+.DS_Store
+Thumbs.db

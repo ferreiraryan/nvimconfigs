@@ -1,0 +1,41 @@
+# Arquivos de Log
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Diretório de dependências
+node_modules/
+
+# Arquivos de ambiente (segredos)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+!.env.example
+
+# Saída de build e produção
+dist/
+build/
+.next/
+.nuxt/
+.output/
+
+# Caches e arquivos de sistema
+.npm
+.yarn-cache
+.pnp.*
+.DS_Store
+Thumbs.db
+
+# Arquivos de Testes e Cobertura
+coverage/
+.nyc_output/
+
+# Arquivos de configuração de IDEs
+.vscode/
+.idea/

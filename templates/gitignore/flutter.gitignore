@@ -1,0 +1,36 @@
+# Arquivos gerados pelo Flutter e Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+build/
+
+# Arquivos de configuração de IDEs
+.idea/
+.vscode/
+
+# Arquivos de ambiente (segredos)
+# Se estiver usando pacotes como flutter_dotenv
+.env*
+!.env.example
+
+# Saída de build das plataformas
+# Android
+*.apk
+*.aab
+# iOS
+*.ipa
+/ios/Flutter/App.framework
+/ios/Flutter/Flutter.podspec
+# macOS
+/macos/Flutter/ephemeral
+# Windows
+/windows/flutter/ephemeral
+
+# Arquivos de Sistema
+.DS_Store
+Thumbs.db
+
+# Arquivos de log do pub
+pubspec.lock
+.pub-cache/

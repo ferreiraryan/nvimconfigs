@@ -58,66 +58,25 @@ return {
     },
     quickfile = { enabled = true },
     words = { enabled = true },
-    -- Se quiser manter o Telescope por enquanto, deixe o picker desativado
     picker = { enabled = true },
   },
   keys = {
-    {
-      '<leader><space>',
-      function()
-        Snacks.picker.smart()
-      end,
-      desc = 'Smart Find Files',
-    },
-    {
-      '<leader>ff',
-      function()
-        Snacks.picker.files()
-      end,
-      desc = 'Find Files',
-    },
-    {
-      '<leader>fg',
-      function()
-        Snacks.picker.grep()
-      end,
-      desc = 'Grep',
-    },
-    {
-      '<leader>fb',
-      function()
-        Snacks.picker.buffers()
-      end,
-      desc = 'Buffers',
-    },
-    {
-      '<leader>fh',
-      function()
-        Snacks.picker.help()
-      end,
-      desc = 'Help Tags',
-    },
-    {
-      '<leader>lg',
-      function()
-        Snacks.lazygit()
-      end,
-      desc = 'LazyGit',
-    },
-    {
-      '<leader>gb',
-      function()
-        Snacks.gitbrowse()
-      end,
-      desc = 'Git Browse',
-    },
-    -- Terminal flutuante rápido (pode coexistir com o toggleterm)
-    {
-      '<leader>fT',
-      function()
-        Snacks.terminal()
-      end,
-      desc = 'Terminal',
-    },
+    { "<leader>sf",       function() Snacks.picker.files() end,                                   desc = "[S]earch [F]iles" },
+    { "<leader>sg",       function() Snacks.picker.grep() end,                                    desc = "[S]earch by [G]rep" },
+    { "<leader>sw",       function() Snacks.picker.grep_word() end,                               desc = "[S]earch current [W]ord" },
+    { "<leader>s.",       function() Snacks.picker.recent() end,                                  desc = '[S]earch Recent Files' },
+    { "<leader><leader>", function() Snacks.picker.buffers() end,                                 desc = "Find existing buffers" },
+
+    -- 🔧 Configurações e Neovim
+    { "<leader>sn",       function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "[S]earch [N]eovim files" },
+    { "<leader>sh",       function() Snacks.picker.help() end,                                    desc = "[S]earch [H]elp" },
+    { "<leader>sk",       function() Snacks.picker.keymaps() end,                                 desc = "[S]earch [K]eymaps" },
+    { "<leader>sd",       function() Snacks.picker.diagnostics() end,                             desc = "[S]earch [D]iagnostics" },
+    { "<leader>sr",       function() Snacks.picker.resume() end,                                  desc = "[S]earch [R]esume" },
+
+    -- 🚀 Extras que o Telescope sofria para fazer rápido
+    { "<leader>sq",       function() Snacks.picker.qflist() end,                                  desc = "Quickfix List" },
+    { "<leader>su",       function() Snacks.picker.undo() end,                                    desc = "Undo Tree Visualizer" },
+    { "<leader>sp",       function() Snacks.picker.projects() end,                                desc = "Projects" },
   },
 }

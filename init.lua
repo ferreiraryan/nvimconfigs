@@ -12,7 +12,7 @@ end
 -- Define a tecla líder ANTES de carregar qualquer outra coisa
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
-
+vim.opt.rtp:prepend(vim.fn.stdpath("data") .. "/site")
 -- Carrega as configurações principais
 require 'core.options'
 require 'core.keymaps'

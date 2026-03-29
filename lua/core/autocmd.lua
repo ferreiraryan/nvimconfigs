@@ -12,6 +12,20 @@ vim.api.nvim_create_autocmd("User", {
     end
   end,
 })
+vim.api.nvim_create_autocmd("User", {
+  pattern = "SessionLoadPost",
+  callback = function()
+    local cwd = vim.fn.getcwd()
+    vim.cmd("cd " .. cwd)
+  end,
+})
+
+vim.api.nvim_create_autocmd("User", {
+  pattern = "SessionLoadPre",
+  callback = function()
+    pcall(vim.cmd, "Neotree close")
+  end,
+})
 
 vim.api.nvim_create_autocmd("BufWipeout", {
   callback = function()

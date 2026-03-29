@@ -14,6 +14,7 @@ return {
       enabled = true,
     },
     use_libuv_file_watcher = true,
+    bind_to_cwd = true,
   },
   lazy = false,
   keys = {

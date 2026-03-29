@@ -13,9 +13,9 @@ return {
       ensure_installed = {
         "gdscript", "godot_resource", "gdshader", "c", "lua", "vim", "vimdoc", "query",
         "javascript", "typescript", "html", "css",
-        "python", "bash", "markdown", "markdown_inline"
+        "python", "bash"
       },
-      highlight = { enable = true },
+      highlight = { enable = true, additional_vim_regex_highlighting = false, },
       indent = { enable = true, disable = { "gdscript" } },
       auto_install = true,
     })

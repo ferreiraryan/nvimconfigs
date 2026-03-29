@@ -173,12 +173,11 @@ return {
       }
 
       -- SERVIDORES EXTERNOS AO MASON
-      if vim.fn.executable('gdscript') == 1 then
-        lspconfig.gdscript.setup {
-          on_attach = on_attach,
-          capabilities = capabilities,
-        }
-      end
+      vim.lsp.config.gdscript = {
+        on_attach = on_attach,
+        capabilities = capabilities,
+      }
+      vim.lsp.enable('gdscript')
     end,
   },
 

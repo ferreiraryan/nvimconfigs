@@ -1,4 +1,5 @@
 -- init.lua
+vim.g.markdown_recommended_style = 0
 
 vim.g.session_manager_autoload_mode = "Disabled"
 -- Silenciar avisos do mason-lspconfig

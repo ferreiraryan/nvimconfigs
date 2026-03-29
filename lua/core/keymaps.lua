@@ -4,31 +4,31 @@ local map = vim.keymap.set
 
 local vim = vim
 -- Função para justificar parágrafos em markdown ignorando títulos
-local function format_markdown_ignore_headers()
-  local start_line = nil
-  local end_line = nil
-  local total_lines = vim.fn.line '$'
-
-  for lnum = 1, total_lines + 1 do
-    local line = vim.fn.getline(lnum)
-    local is_header = vim.startswith(line, '#')
-
-    if line:match '^%s*$' or is_header or lnum == total_lines + 1 then
-      if start_line and end_line and end_line >= start_line then
-        vim.cmd(string.format('%d,%dgq', start_line, end_line))
-      end
-      start_line = nil
-      end_line = nil
-    else
-      if not start_line then
-        start_line = lnum
-      end
-      end_line = lnum
-    end
-  end
-end
-
--- Cola sempre do registro 0 no modo normal
+-- local function format_markdown_ignore_headers()
+--   local start_line = nil
+--   local end_line = nil
+--   local total_lines = vim.fn.line '$'
+--
+--   for lnum = 1, total_lines + 1 do
+--     local line = vim.fn.getline(lnum)
+--     local is_header = vim.startswith(line, '#')
+--
+--     if line:match '^%s*$' or is_header or lnum == total_lines + 1 then
+--       if start_line and end_line and end_line >= start_line then
+--         vim.cmd(string.format('%d,%dgq', start_line, end_line))
+--       end
+--       start_line = nil
+--       end_line = nil
+--     else
+--       if not start_line then
+--         start_line = lnum
+--       end
+--       end_line = lnum
+--     end
+--   end
+-- end
+--
+-- -- Cola sempre do registro 0 no modo normal
 vim.keymap.set('n', 'p', '"0p')
 
 -- Cola no modo visual sem perder o yank
@@ -66,7 +66,7 @@ map('n', '<leader>wh', '<C-w>K', { desc = 'Mover janela para horizontal (acima)'
 map('n', '<leader>d', vim.diagnostic.setloclist, { desc = 'Abrir lista de diagnósticos' })
 
 -- Markdown
-map('n', '<leader>fj', format_markdown_ignore_headers, { desc = 'Justificar parágrafos (Markdown)' })
+-- map('n', '<leader>fj', format_markdown_ignore_headers, { desc = 'Justificar parágrafos (Markdown)' })
 
 -- Em lua/core/keymaps.lua
 -- Exemplo de como configurar após a instalação com lazy.nvim

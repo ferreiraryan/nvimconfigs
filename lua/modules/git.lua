@@ -33,17 +33,20 @@ function M.setup_repo(remote_url)
     vim.fn.writefile({ '# Projeto' }, 'README.md')
   end
 
-  run_cmd('git add .')
-  run_cmd('git diff-index --quiet HEAD -- || git commit -m "Initial"')
-  run_cmd('git branch -M main')
+  if not run_cmd('git add .') then return end
 
-  if vim.fn.system('git remote get-url origin') == '' then
-    run_cmd('git remote add origin ' .. remote_url)
+  run_cmd('git diff-index --quiet HEAD -- || git commit -m "Initial"')
+
+  if not run_cmd('git branch -M main') then return end
+
+  vim.fn.system('git remote get-url origin')
+  if vim.v.shell_error ~= 0 then
+    if not run_cmd('git remote add origin ' .. remote_url) then return end
   else
-    run_cmd('git remote set-url origin ' .. remote_url)
+    if not run_cmd('git remote set-url origin ' .. remote_url) then return end
   end
 
-  run_cmd('git push -u origin main')
+  if not run_cmd('git push -u origin main') then return end
 
   notify('🚀 Repo pronto!')
 end

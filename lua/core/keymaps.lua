@@ -124,6 +124,22 @@ end, { desc = 'Harpoon: Ir para arquivo 3' })
 vim.keymap.set('n', '<leader>4', function()
   require('harpoon'):list():select(4)
 end, { desc = 'Harpoon: Ir para arquivo 4' })
+vim.keymap.set('n', '<leader>5', function()
+  require('harpoon'):list():select(5)
+end, { desc = 'Harpoon: Ir para arquivo 5' })
+vim.keymap.set('n', '<leader>6', function()
+  require('harpoon'):list():select(6)
+end, { desc = 'Harpoon: Ir para arquivo 6' })
+vim.keymap.set('n', '<leader>7', function()
+  require('harpoon'):list():select(7)
+end, { desc = 'Harpoon: Ir para arquivo 7' })
+vim.keymap.set('n', '<leader>8', function()
+  require('harpoon'):list():select(8)
+end, { desc = 'Harpoon: Ir para arquivo 8' })
+
+
+
+
 
 -- Mover linhas com Alt + Seta para Cima/Baixo
 vim.keymap.set('n', '<A-k>', ':m -2<CR>', { silent = true })

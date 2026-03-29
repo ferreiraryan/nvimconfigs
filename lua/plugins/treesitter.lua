@@ -11,12 +11,12 @@ return {
 
     configs.setup({
       ensure_installed = {
-        "c", "lua", "vim", "vimdoc", "query",
+        "gdscript", "godot_resource", "gdshader", "c", "lua", "vim", "vimdoc", "query",
         "javascript", "typescript", "html", "css",
         "python", "bash", "markdown", "markdown_inline"
       },
       highlight = { enable = true },
-      indent = { enable = true },
+      indent = { enable = true, disable = { "gdscript" } },
       auto_install = true,
     })
 

@@ -1,7 +1,5 @@
--- lua/plugins/lsp.lua
-
 return {
-  -- 1. GERENCIADOR DE PACOTES: Mason
+  -- MASON (Instalador de LSPs)
   {
     'williamboman/mason.nvim',
     cmd = { 'Mason' },
@@ -16,84 +14,117 @@ return {
     },
   },
 
-  -- 2. CONFIGURAÇÃO DO LSP: A VERSÃO FINAL E COMPLETA
+  -- LSP CONFIG
   {
     'neovim/nvim-lspconfig',
     dependencies = {
       'williamboman/mason-lspconfig.nvim',
-      { 'j-hui/fidget.nvim',          tag = 'legacy',                            opts = {} },
+      { 'j-hui/fidget.nvim',          opts = {} }, -- Removido 'legacy' tag para usar versão atual
       { 'akinsho/flutter-tools.nvim', dependencies = { 'nvim-lua/plenary.nvim' } },
+      'hrsh7th/cmp-nvim-lsp',
     },
     config = function()
-      local lspconfig = require 'lspconfig'
-      -- Lista de servidores de linguagem (LSPs) completa
-      local lsp_servers = {
+      local lspconfig = require('lspconfig')
+      local mason_lspconfig = require('mason-lspconfig')
+
+      local servers = {
         'ruff',
         'lua_ls',
         'pyright',
         'cssls',
-        'emmet_ls', -- << Reativado
+        'emmet_ls',
         'html',
         'jsonls',
-        'tailwindcss', -- << Reativado
-        -- 'tsserver',
-        -- 'dartls',
+        'tailwindcss',
         'jdtls',
         'marksman',
-        -- 'djlint',
         'clangd',
+        'ts_ls',
       }
 
+      -- KEYMAPS + ATTACH
       local on_attach = function(client, bufnr)
-        if pcall(require, 'lsp_signature') then
-          require('lsp_signature').on_attach({
+        -- Assinatura (lsp_signature)
+        local ok, lsp_sig = pcall(require, 'lsp_signature')
+        if ok then
+          lsp_sig.on_attach({
             bind = true,
             handler_opts = { border = 'rounded' },
           }, bufnr)
         end
+
         local map = function(mode, keys, func, desc)
           vim.keymap.set(mode, keys, func, { buffer = bufnr, desc = 'LSP: ' .. desc })
         end
-        map('n', 'K', vim.lsp.buf.hover, 'Mostrar Documentação')
-        map('n', 'gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-        map('n', 'gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-        map('n', 'gi', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-        map('n', '<leader>rn', vim.lsp.buf.rename, '[R]e[n]omear')
-        map({ 'n', 'v' }, '<leader>la', vim.lsp.buf.code_action, '[L]SP [A]ction')
+
+        map('n', 'K', vim.lsp.buf.hover, 'Hover')
+        map('n', 'gd', require('telescope.builtin').lsp_definitions, 'Definition')
+        map('n', 'gr', require('telescope.builtin').lsp_references, 'References')
+        map('n', 'gi', require('telescope.builtin').lsp_implementations, 'Implementation')
+        map('n', '<leader>rn', vim.lsp.buf.rename, 'Rename')
+        map({ 'n', 'v' }, '<leader>la', vim.lsp.buf.code_action, 'Code Action')
+
+        -- TS_LS extra (antigo tsserver)
+        if client.name == "ts_ls" then
+          client.server_capabilities.documentFormattingProvider = false
+
+          map('n', '<leader>oi', function()
+            vim.lsp.buf.execute_command {
+              command = '_typescript.organizeImports',
+              arguments = { vim.api.nvim_buf_get_name(0) },
+            }
+          end, 'Organize Imports')
+        end
+
+        -- Flutter extra
+        if client.name == "dartls" then
+          local ok_flutter, ft = pcall(require, 'flutter-tools.commands')
+          if ok_flutter then
+            map('n', '<leader>fr', ft.reload, 'Flutter Reload')
+            map('n', '<leader>fR', ft.restart, 'Flutter Restart')
+            map('n', '<leader>fq', ft.quit, 'Flutter Quit')
+          end
+        end
       end
 
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-      require('mason-lspconfig').setup {
-        ensure_installed = lsp_servers,
+      mason_lspconfig.setup {
+        ensure_installed = servers,
         handlers = {
-          -- Handler padrão para configurar a maioria dos servidores
+          -- DEFAULT HANDLER
           function(server_name)
-            require('lspconfig')[server_name].setup {
+            -- Acessar via lspconfig[server_name] dispara o warning no 0.11
+            -- A forma recomendada agora é usar diretamente o setup do servidor
+            lspconfig[server_name].setup({
               on_attach = on_attach,
               capabilities = capabilities,
-            }
+            })
           end,
 
-          -----------------------------------------------------------------
-          --- CONFIGURAÇÃO EXPLÍCITA PARA EVITAR CONFLITOS ---
-          -----------------------------------------------------------------
+          -- HTML
           ['html'] = function()
-            require('lspconfig').html.setup {
+            lspconfig.html.setup {
               on_attach = on_attach,
               capabilities = capabilities,
               filetypes = { 'html', 'jinja.html', 'djangohtml' },
             }
           end,
 
+          -- EMMET
           ['emmet_ls'] = function()
-            require('lspconfig').emmet_ls.setup {
+            lspconfig.emmet_ls.setup {
               on_attach = on_attach,
               capabilities = capabilities,
-              filetypes = { 'html', 'css', 'scss', 'javascriptreact', 'typescriptreact', 'jinja.html', 'djangohtml' },
+              filetypes = {
+                'html', 'css', 'scss',
+                'javascriptreact', 'typescriptreact',
+                'jinja.html', 'djangohtml'
+              },
             }
           end,
 
+          -- PYRIGHT
           ['pyright'] = function()
             lspconfig.pyright.setup {
               on_attach = on_attach,
@@ -109,42 +140,28 @@ return {
               },
             }
           end,
+
+          -- MARKDOWN
           ['marksman'] = function()
-            require('lspconfig').marksman.setup {
+            lspconfig.marksman.setup {
               capabilities = capabilities,
               on_attach = function(client, bufnr)
-                -- 1. Executa sua função on_attach padrão para ter os atalhos
                 on_attach(client, bufnr)
-
-                -- 2. Desativa os diagnósticos APENAS para este buffer
-                vim.diagnostic.disable(bufnr)
+                vim.diagnostic.enable(false, { bufnr = bufnr }) -- Sintaxe atualizada para desabilitar
               end,
             }
           end,
 
-          -- Handler especial para Dart
+          -- DART / FLUTTER
           ['dartls'] = function()
             require('flutter-tools').setup {
               lsp = {
-                on_attach = function(client, bufnr)
-                  -- Chama o seu on_attach global (se existir)
-                  if on_attach then on_attach(client, bufnr) end
-
-                  local fmap = function(keys, func, desc)
-                    vim.keymap.set('n', keys, func, { buffer = bufnr, desc = 'Flutter: ' .. desc })
-                  end
-
-                  fmap('<leader>fr', require('flutter-tools.commands').reload, '[F]lutter [R]eload')
-                  fmap('<leader>fR', require('flutter-tools.commands').restart, '[F]lutter [R]estart')
-                  fmap('<leader>fq', require('flutter-tools.commands').quit, '[F]lutter [Q]uit App')
-                end,
+                on_attach = on_attach,
                 capabilities = capabilities,
                 settings = {
-                  -- Isso ajuda a evitar erros de dessincronização no Arch
                   showTodos = true,
                   completeFunctionCalls = true,
                 },
-                -- Força a sincronização total se o erro didChange persistir
                 flags = {
                   allow_incremental_sync = false,
                   debounce_text_changes = 200,
@@ -152,50 +169,26 @@ return {
               },
             }
           end,
-          ['djlint'] = function()
-            lspconfig.djlint.setup {
-              filetypes = { 'html', 'djangohtml', 'htmldjango' },
-            }
-          end,
-          ['tsserver'] = function()
-            require('lspconfig').tsserver.setup {
-              on_attach = function(client, bufnr)
-                -- chama o on_attach padrão (atalhos, etc.)
-                on_attach(client, bufnr)
-
-                -- desativa o formatador do tsserver (deixa pra prettier ou null-ls)
-                client.server_capabilities.documentFormattingProvider = false
-                client.server_capabilities.documentRangeFormattingProvider = false
-
-                -- atalhos extras só pra TS/JS
-                local map = function(mode, keys, func, desc)
-                  vim.keymap.set(mode, keys, func, { buffer = bufnr, desc = 'TS: ' .. desc })
-                end
-
-                map('n', '<leader>oi', function()
-                  vim.lsp.buf.execute_command {
-                    command = '_typescript.organizeImports',
-                    arguments = { vim.api.nvim_buf_get_name(0) },
-                  }
-                end, '[O]rganizar [I]mports')
-              end,
-              capabilities = capabilities,
-              filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
-            }
-          end,
         },
       }
+
+      -- SERVIDORES EXTERNOS AO MASON
+      if vim.fn.executable('gdscript') == 1 then
+        lspconfig.gdscript.setup {
+          on_attach = on_attach,
+          capabilities = capabilities,
+        }
+      end
     end,
   },
 
+  -- ASSINATURA (Independente)
   {
     'ray-x/lsp_signature.nvim',
     event = 'VeryLazy',
     opts = {
       bind = true,
-      handler_opts = {
-        border = 'rounded',
-      },
+      handler_opts = { border = 'rounded' },
     },
   },
 }

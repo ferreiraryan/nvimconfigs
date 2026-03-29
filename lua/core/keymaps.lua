@@ -164,3 +164,6 @@ vim.keymap.set('n', '<leader>ov', '<cmd>ObsidianQuickSwitch<cr>', { desc = 'Abri
 vim.keymap.set("n", "<leader>p", ":NeovimProjectDiscover<CR>", {
   desc = "Abrir projetos"
 })
+
+vim.keymap.set('n', '<leader>nf', '<cmd>lua Snacks.notifier.show_history()<cr>',
+  { desc = 'Abrir historico de notificacoes' })

@@ -93,7 +93,6 @@ end)
 local map = vim.keymap.set
 
 -- Modo Normal
-map('n', '<leader>e', ':NvimTreeToggle<CR>', { desc = 'Toggle File Explorer' }) -- Assumindo que você usa nvim-tree
 map('n', '<leader>w', ':w<CR>', { desc = 'Save File' })
 map('n', '<leader>q', ':q<CR>', { desc = 'Quit' })
 
@@ -183,3 +182,6 @@ vim.keymap.set("n", "<leader>p", ":NeovimProjectDiscover<CR>", {
 
 vim.keymap.set('n', '<leader>nf', '<cmd>lua Snacks.notifier.show_history()<cr>',
   { desc = 'Abrir historico de notificacoes' })
+
+-- Adiciona ';' ao final da linha sem mover o cursor do lugar
+vim.keymap.set('n', '<leader>;', "A;<Esc>", { desc = "Adiciona ponto e vírgula no final da linha" })

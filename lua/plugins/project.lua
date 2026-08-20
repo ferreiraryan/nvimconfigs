@@ -10,7 +10,7 @@ return {
   end,
   opts = {
     projects = { -- define project roots
-      "~/Documents/projects/*/*/*",
+      "~/Projects/*/*/*",
     },
     picker = {
       type = "snacks", -- one of "telescope", "fzf-lua", or "snacks"

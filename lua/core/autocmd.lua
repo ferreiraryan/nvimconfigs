@@ -96,17 +96,17 @@ autocmd("TextYankPost", {
 -- ========================
 -- MARKDOWN
 -- ========================
-autocmd("FileType", {
-  group = group,
-  pattern = "markdown",
-  callback = function()
-    vim.opt_local.wrap = true
-    vim.opt_local.linebreak = true
-    vim.opt_local.breakindent = true
-    vim.opt_local.showbreak = "↪ "
-    vim.diagnostic.disable(0)
-  end,
-})
+-- autocmd("FileType", {
+--   group = group,
+--   pattern = "markdown",
+--   callback = function()
+--     vim.opt_local.wrap = true
+--     vim.opt_local.linebreak = true
+--     vim.opt_local.breakindent = true
+--     vim.opt_local.showbreak = "↪ "
+--     vim.diagnostic.disable(0)
+--   end,
+-- })
 
 -- ========================
 -- AUTO SAVE
